@@ -1,8 +1,19 @@
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import RegisterModal from '../../auth/modals/RegisterModal'
 import LoginModal from '../../auth/modals/LoginModal'
+import { useDispatch, useSelector } from 'react-redux'
+import Swal from 'sweetalert2'
+import { logout } from '../../features/auth/authSlice'
 
 const Top = () => {
+  const dispatch = useDispatch()
+  const { userInfo } = useSelector((state) => state.auth)
+  const navigate = useNavigate()
+  const handleLogout = () => {
+    Swal.fire('logged out!', 'logout sucess!', 'success')
+    dispatch(logout())
+    navigate('/')
+  }
   return (
     <>
       <nav className='navbar navbar-expand-lg bg-body-tertiary'>
@@ -47,24 +58,40 @@ const Top = () => {
                 </Link>
               </li>
             </ul>
-            <form className='d-flex' role='search'>
-              <button
-                type='button'
-                className='btn btn-primary me-1'
-                data-bs-toggle='modal'
-                data-bs-target='#exampleModal'
-              >
-                register
-              </button>
-              <button
-                className='btn btn-success'
-                type='button'
-                data-bs-toggle='modal'
-                data-bs-target='#loginModal'
-              >
-                Login
-              </button>
-            </form>
+            {userInfo ? (
+              <>
+                <button
+                  className='btn btn-outline-success me-1'
+                  onClick={handleLogout}
+                >
+                  {userInfo ? userInfo.user.name : null}
+                </button>
+                <button className='btn btn-danger' onClick={handleLogout}>
+                  Logout
+                </button>
+              </>
+            ) : (
+              <>
+                <form className='d-flex' role='search'>
+                  <button
+                    type='button'
+                    className='btn btn-primary me-1'
+                    data-bs-toggle='modal'
+                    data-bs-target='#exampleModal'
+                  >
+                    register
+                  </button>
+                  <button
+                    className='btn btn-success'
+                    type='button'
+                    data-bs-toggle='modal'
+                    data-bs-target='#loginModal'
+                  >
+                    Login
+                  </button>
+                </form>
+              </>
+            )}
           </div>
         </div>
       </nav>
