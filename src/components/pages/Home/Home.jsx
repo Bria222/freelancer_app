@@ -1,11 +1,11 @@
 import { Link } from 'react-router-dom'
-import Top from '../Navigation/Top'
-import Footer from '../Navigation/Footer'
+import HomeTop from './HomeTop'
+import HomeFooter from './HomeFooter'
 
 const Home = () => {
   return (
     <>
-      <Top />
+      <HomeTop />
       <br />
       <br />
       <div className='container'>
@@ -142,7 +142,7 @@ const Home = () => {
           </div>
         </div>
       </div>
-      <Footer />
+      <HomeFooter />
     </>
   )
 }

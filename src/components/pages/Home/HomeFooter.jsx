@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom'
 
-const Footer = () => {
+const HomeFooter = () => {
   return (
     <>
       <footer className='bg-secondary text-center text-white mt-lg-4 m-1 '>
@@ -176,4 +176,4 @@ const Footer = () => {
   )
 }
 
-export default Footer
+export default HomeFooter

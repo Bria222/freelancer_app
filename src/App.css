@@ -1,0 +1,29 @@
+.account-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  cursor: pointer;
+}
+
+.account-header {
+  display: flex;
+  align-items: center;
+}
+
+//* Original CSS */
+@media (max-width: 992px) {
+  .vertical-menu {
+    display: none;
+  }
+}
+
+/* New CSS for showing the menu */
+@media (max-width: 992px) {
+  .vertical-menu.show-menu {
+    display: block;
+  }
+}
+
+.whathsapp-icon {
+  height: 30px;
+}
