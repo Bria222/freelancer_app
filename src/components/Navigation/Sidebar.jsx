@@ -56,11 +56,47 @@ const Sidebar = ({ menuVisible }) => {
                   <span key='t-dashboards'> Dashboard</span>
                 </Link>
               </li>
+              <li>
+                <Link to='/home'>
+                  <i className='fa-solid fa-pen'></i>{' '}
+                  <span key='t-dashboards'>Available</span>
+                </Link>
+              </li>
+              <li>
+                <Link to='/home'>
+                  <i className='fa-solid fa-pen-nib'></i>{' '}
+                  <span key='t-dashboards'>In Progress</span>
+                </Link>
+              </li>
+              <li>
+                <Link to='/home'>
+                  <i className='fa-solid fa-flag'></i>{' '}
+                  <span key='t-dashboards'>In Review</span>
+                </Link>
+              </li>
+              <li>
+                <Link to='/home'>
+                  <i className='fa-solid fa-square-check'></i>{' '}
+                  <span key='t-dashboards'>Completed</span>
+                </Link>
+              </li>
+              <li>
+                <Link to='/home'>
+                  <i className='fa-solid fa-pen-to-square'></i>{' '}
+                  <span key='t-dashboards'>Revision</span>
+                </Link>
+              </li>
+              <li>
+                <Link to='/home'>
+                  <i className='fa-solid fa-thumbs-down'></i>{' '}
+                  <span key='t-dashboards'>Disputed</span>
+                </Link>
+              </li>
 
               <li>
                 <a href='#' onClick={toggleAccountSubMenu}>
                   <i className='fa fa-user-circle'></i>{' '}
-                  <span key='t-layouts'>Account</span>{' '}
+                  <span key='t-layouts'>Profile</span>{' '}
                   {showAccountSubMenu ? (
                     <ExpandLessOutlinedIcon />
                   ) : (
@@ -95,192 +131,17 @@ const Sidebar = ({ menuVisible }) => {
                   </ul>
                 )}
               </li>
-
               <li>
-                <a href='#' onClick={toggleInvoicesSubMenu}>
-                  <i className='fa fa-receipt'></i>{' '}
-                  <span key='t-layouts'>invoices</span>{' '}
-                  {showInvoicesSubMenu ? (
-                    <ExpandLessOutlinedIcon />
-                  ) : (
-                    <KeyboardArrowDownOutlinedIcon />
-                  )}
-                </a>
-                {showInvoicesSubMenu && (
-                  <ul className='sub-menu' aria-expanded={showInvoicesSubMenu}>
-                    <li>
-                      <Link to='/send-invoice'>
-                        <i className='fas fa-file-invoice-dollar'></i>Send
-                        invoice
-                      </Link>
-                    </li>
-                    <li>
-                      <Link to='/invoices'>
-                        {' '}
-                        <i className='fa-solid fa-file-lines'></i>My Invoices{' '}
-                      </Link>
-                    </li>
-                  </ul>
-                )}
+                <Link to='/home'>
+                  <i className='fa-solid fa-comments'></i>{' '}
+                  <span key='t-dashboards'>General Chat</span>
+                </Link>
               </li>
               <li>
-                <a href='#' onClick={togglePaymentsSubMenu}>
-                  <i className='fa fa-money'></i>{' '}
-                  <span key='t-layouts'>payments</span>{' '}
-                  {showPaymentsSubMenu ? (
-                    <ExpandLessOutlinedIcon />
-                  ) : (
-                    <KeyboardArrowDownOutlinedIcon />
-                  )}
-                </a>
-                {showPaymentsSubMenu && (
-                  <ul className='sub-menu' aria-expanded={showPaymentsSubMenu}>
-                    <li>
-                      <Link to='/transactions'>
-                        <i className='fas fa-clipboard-list'></i>{' '}
-                        <span key='t-dashboards'> Transactions</span>
-                      </Link>
-                    </li>
-                    <li>
-                      <Link to='/transactions'>
-                        <i className='fas fa-user-tag'></i>{' '}
-                        <span key='t-dashboards'> My Customers</span>
-                      </Link>
-                      <Link to='/transactions'>
-                        <i className='fas fa-qrcode'></i>{' '}
-                        <span key='t-dashboards'> Generate Lipwa Link</span>
-                      </Link>
-                      <Link to='/transactions'>
-                        <i className='fa-solid fa-mobile'></i>
-                        <span key='t-dashboards'>
-                          Send customer MPESA STK Push
-                        </span>
-                      </Link>
-                      <Link to='/transactions'>
-                        <i className='fa-solid fa-mobile'></i>
-                        <span key='t-dashboards'>Account Statement</span>
-                      </Link>
-                      <Link to='/transactions'>
-                        <i className='fa fa-money'></i>
-                        <span key='t-dashboards'>
-                          payment goal
-                          <span
-                            className='badge rounded-pill bg-success float-end'
-                            key='t-new'
-                          >
-                            New
-                          </span>
-                        </span>
-                      </Link>
-                      <Link to='/transactions'>
-                        <i className='fa fa-money'></i>
-                        <span key='t-dashboards'>
-                          my payment goals
-                          <span
-                            className='badge rounded-pill bg-success float-end'
-                            key='t-new'
-                          >
-                            New
-                          </span>
-                        </span>
-                      </Link>
-                      <Link to='/pricing'>
-                        <i className='fa fa-money'></i>
-                        <span key='t-dashboards'>pricing</span>
-                      </Link>
-                    </li>
-                  </ul>
-                )}
-              </li>
-
-              <li>
-                <a href='#' onClick={togglepaypalSubMenu}>
-                  <i className='fa-solid fa-p'></i>{' '}
-                  <span key='t-layouts'>paypal</span>{' '}
-                  {showPaypalSubMenu ? (
-                    <ExpandLessOutlinedIcon />
-                  ) : (
-                    <KeyboardArrowDownOutlinedIcon />
-                  )}
-                </a>
-                {showPaypalSubMenu && (
-                  <ul className='sub-menu' aria-expanded={showPaypalSubMenu}>
-                    <li>
-                      <Link to='/paypal'>
-                        {' '}
-                        <i className='fa fa-user-circle'></i> manage paypal
-                        credentials
-                      </Link>
-                    </li>
-                  </ul>
-                )}
-              </li>
-              <li>
-                <a href='#' onClick={togglesasaSubMenu}>
-                  <i className='fa-solid fa-store'></i>{' '}
-                  <span key='t-layouts'>Sasa Pay</span>{' '}
-                  {showsasaSubMenu ? (
-                    <ExpandLessOutlinedIcon />
-                  ) : (
-                    <KeyboardArrowDownOutlinedIcon />
-                  )}
-                </a>
-                {showsasaSubMenu && (
-                  <ul className='sub-menu' aria-expanded={showsasaSubMenu}>
-                    <li>
-                      <Link to='/sasa'>
-                        {' '}
-                        <i className='fa-solid fa-address-book'></i> manage
-                        Account
-                      </Link>
-                    </li>
-                  </ul>
-                )}
-              </li>
-              <li>
-                <a href='#' onClick={toggleimpotantSubMenu}>
-                  <i className='fa-solid fa-arrow-up-right-from-square'></i>{' '}
-                  <span key='t-layouts'>Important Links</span>{' '}
-                  {showimportantSubMenu ? (
-                    <ExpandLessOutlinedIcon />
-                  ) : (
-                    <KeyboardArrowDownOutlinedIcon />
-                  )}
-                </a>
-                {showimportantSubMenu && (
-                  <ul className='sub-menu' aria-expanded={showimportantSubMenu}>
-                    <li>
-                      <Link to='/videos'>
-                        {' '}
-                        <i className='fa-solid fa-video'></i>Videos
-                      </Link>
-                      <Link
-                        to='https://documenter.getpostman.com/view/8153370/TzkyKybq'
-                        rel='noreferrer'
-                        target='__blank'
-                      >
-                        <i className='fa-solid fa-laptop-code'></i>API
-                        Documententantion
-                      </Link>
-                      <Link
-                        to='https://www.youtube.com/watch?v=zcFWS4TYDa4'
-                        rel='noreferrer'
-                        target='__blank'
-                      >
-                        <i className='fa-solid fa-cart-shopping'></i>WooCommerce
-                        integration
-                      </Link>
-                      <Link
-                        to='https://scribehow.com/shared/Shopify_Workflow__uxQiGBdgTMCFNO-RrGvdqg'
-                        rel='noreferrer'
-                        target='__blank'
-                      >
-                        <i className='fa-solid fa-bag-shopping'></i>Shopify
-                        integration
-                      </Link>
-                    </li>
-                  </ul>
-                )}
+                <Link to='/home'>
+                  <i className='fa-solid fa-money-bill'></i>{' '}
+                  <span key='t-dashboards'>Transactions</span>
+                </Link>
               </li>
             </ul>
           </div>

@@ -7,7 +7,7 @@ import SearchOutlinedIcon from '@mui/icons-material/SearchOutlined'
 import { Dropdown } from 'react-bootstrap'
 
 import { useDispatch, useSelector } from 'react-redux'
-import { useNavigate } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import { logout } from '../../features/auth/authSlice'
 
 import Swal from 'sweetalert2'
@@ -24,7 +24,7 @@ const Top = ({ onButtonClick }) => {
   const handleProfile = () => {
     navigate('/profile')
   }
-  console.log(userInfo)
+
   return (
     <>
       <header
@@ -37,25 +37,29 @@ const Top = ({ onButtonClick }) => {
             <div className='navbar-brand-box'>
               <a href='index.html' className='logo logo-dark'>
                 <span className='logo-sm'>
-                  <img src='../files-PayHero3.png' alt='logo' />
+                  <img src='../main-logo.jpeg' alt='logo' />
                 </span>
                 <span className='logo-lg'>
                   <img
-                    src='../files-PayHero3.png'
+                    src='../main-logo.jpeg'
                     alt=''
                     style={{ height: '100px' }}
                   />
                 </span>
               </a>
-
               <a href='index.html' className='logo logo-light text-white'>
                 <span className='logo-sm'>
                   <img src='../images/logo-light.svg' alt='' />
                 </span>
                 <span className='logo-lg'>
-                  <img src='../logo1.png' alt='' style={{ height: '100px' }} />
+                  <img src='' alt='' style={{ height: '100px' }} />
                 </span>
               </a>
+              <Link to='/' className='navbar-brand'>
+                <i className='fa-solid fa-computer text-info'></i>{' '}
+                <span style={{ fontWeight: '900', color: 'green' }}>F</span>
+                reelancers Arena
+              </Link>
             </div>
 
             <button
