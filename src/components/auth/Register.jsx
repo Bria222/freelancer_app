@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-// import './userAuth.css'
+
 import { useDispatch, useSelector } from 'react-redux'
 import { useForm } from 'react-hook-form'
 import { useNavigate } from 'react-router-dom'
@@ -47,6 +47,7 @@ const Register = () => {
             <label htmlFor='name'>Name </label>
             <input
               id='name'
+              className='form-control'
               type='text'
               placeholder='full name ..'
               name='name'
@@ -58,6 +59,7 @@ const Register = () => {
             <label htmlFor='phone_number'>Phone number </label>
             <input
               id='name'
+              className='form-control'
               type='number'
               placeholder='254710889090'
               name='phone_number'
@@ -70,6 +72,7 @@ const Register = () => {
             <label htmlFor='email'>Email </label>
             <input
               id='email'
+              className='form-control'
               type='email'
               placeholder='me@example.com'
               name='email'
@@ -82,6 +85,7 @@ const Register = () => {
             <label htmlFor='password'>Password </label>
             <input
               id='password'
+              className='form-control'
               type='password'
               placeholder='password'
               name='password'
@@ -93,6 +97,7 @@ const Register = () => {
             <label htmlFor='password'>Confirm Password </label>
             <input
               id='password'
+              className='form-control'
               type='password'
               placeholder='password'
               name='password'
