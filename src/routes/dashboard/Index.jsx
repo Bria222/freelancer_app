@@ -164,7 +164,7 @@ const Index = () => {
                           <i className='fa fa-list-ul h2 text-success mb-0'></i>
                         </div>
                         <div className='flex-grow-1'>
-                          <p className='text-muted mb-2'>Transactions</p>
+                          <p className='text-muted mb-2'>Generate Reports</p>
                           <h5 className='mb-0'>{49} </h5>
                         </div>
                       </div>
@@ -194,8 +194,8 @@ const Index = () => {
                           <i className='fa fa-credit-card h2 text-info mb-0'></i>
                         </div>
                         <div className='flex-grow-1'>
-                          <p className='text-muted mb-2'>My Payment Channels</p>
-                          <h5 className='mb-0'>2 </h5>
+                          <p className='text-muted mb-2'>Order ststistics</p>
+                          <h5 className='mb-0'>. </h5>
                         </div>
                       </div>
                     </div>
@@ -209,7 +209,7 @@ const Index = () => {
                           <i className='fa fa-group h2 text-warning mb-0'></i>
                         </div>
                         <div className='flex-grow-1'>
-                          <p className='text-muted mb-2'>My Customers</p>
+                          <p className='text-muted mb-2'>Writer Tools</p>
                           <h5 className='mb-0'>3 </h5>
                         </div>
                       </div>
@@ -233,11 +233,10 @@ const Index = () => {
               <div className='row'>
                 <div className='col-sm-6'>
                   <script>document.write(new Date().getFullYear())</script>2023
-                  © SPS.
                 </div>
                 <div className='col-sm-6'>
                   <div className='text-sm-end d-none d-sm-block'>
-                    Designed &amp; Developed By Pay Hero Kenya
+                    Designed &amp; Developed By Brian Technologies
                   </div>
                 </div>
               </div>

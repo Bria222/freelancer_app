@@ -31,7 +31,7 @@ const RegisterModal = () => {
               type='button'
               data-bs-dismiss='modal'
             >
-              <Link to='/writer-register' className='nav-link'>
+              <Link to='/register' className='nav-link'>
                 Writer
               </Link>
             </button>
@@ -40,7 +40,7 @@ const RegisterModal = () => {
               type='button'
               data-bs-dismiss='modal'
             >
-              <Link to='/employer-register' className='nav-link'>
+              <Link to='/register' className='nav-link'>
                 Employer
               </Link>
             </button>

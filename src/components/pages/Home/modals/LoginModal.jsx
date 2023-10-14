@@ -3,10 +3,10 @@ import { useNavigate } from 'react-router-dom'
 const LoginModal = () => {
   const navigate = useNavigate()
   const handlewriter = () => {
-    navigate('/writer-login')
+    navigate('/login')
   }
   const handleEmployer = () => {
-    navigate('/employer-login')
+    navigate('/login')
   }
   return (
     <div
