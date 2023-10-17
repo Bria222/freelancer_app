@@ -56,8 +56,8 @@ const Top = ({ onButtonClick }) => {
     <>
       <header
         id='page-topbar'
-        className=''
-        style={{ backgroundColor: '#2a3042', color: 'white' }}
+        className='bg-info'
+        style={{ backgroundColor: 'blue', color: 'black' }}
       >
         <div className='navbar-header'>
           <div className='d-flex'>
@@ -97,20 +97,6 @@ const Top = ({ onButtonClick }) => {
             >
               <i className='fa fa-fw fa-bars text-white fw-bolder'></i>
             </button>
-
-            <form className='app-search d-none d-lg-block mt-4'>
-              <div className='position-relative'>
-                <input
-                  type='text'
-                  className='form-control bg-dark'
-                  placeholder='Search...'
-                />
-                <span className=''>
-                  {' '}
-                  <SearchOutlinedIcon />
-                </span>
-              </div>
-            </form>
           </div>
 
           <div className='d-flex'>

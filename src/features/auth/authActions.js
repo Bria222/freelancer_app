@@ -45,7 +45,7 @@ export const userLogin = createAsyncThunk(
 export const registerUser = createAsyncThunk(
   'user/register',
   async (
-    { name, email, password, phone_number, role },
+    { name, email, avatar, password, phone_number, role },
     { rejectWithValue }
   ) => {
     try {
@@ -57,7 +57,7 @@ export const registerUser = createAsyncThunk(
 
       await axios.post(
         `${backendURL}/users/add`,
-        { name, email, password, phone_number, role },
+        { name, email, avatar, password, phone_number, role },
         config
       )
     } catch (error) {

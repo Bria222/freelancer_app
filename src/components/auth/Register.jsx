@@ -50,7 +50,6 @@ const Register = () => {
               className='form-control'
               type='text'
               placeholder='full name ..'
-             
               {...register('name')}
               required
             />
@@ -62,7 +61,6 @@ const Register = () => {
               className='form-control'
               type='number'
               placeholder='254710889090'
-             
               {...register('phone_number')}
               required
             />
@@ -75,7 +73,6 @@ const Register = () => {
               className='form-control'
               type='email'
               placeholder='me@example.com'
-            
               {...register('email')}
               required
             />
@@ -88,7 +85,6 @@ const Register = () => {
               className='form-control'
               type='password'
               placeholder='password'
-             
               {...register('password')}
               required
             />
@@ -100,7 +96,6 @@ const Register = () => {
               className='form-control'
               type='password'
               placeholder='password'
-              
               {...register('confirmPassword')}
               required
             />
