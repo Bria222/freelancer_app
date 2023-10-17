@@ -231,16 +231,36 @@ const Top = ({ onButtonClick }) => {
                 className='btn header-item waves-effect'
                 id='page-header-user-dropdown'
               >
-                <img
-                  className='rounded-circle header-profile-user'
-                  src={users.avatar}
-                  alt={users.name}
-                />
+                {loading ? (
+                  <div
+                    className='spinner-grow text-white mt-lg-2'
+                    role='status'
+                  >
+                    <span className='visually-hidden'>Loading...</span>
+                  </div>
+                ) : (
+                  <>
+                    <img
+                      className='rounded-circle header-profile-user'
+                      src={users.avatar}
+                      alt={users.name}
+                    />
+                  </>
+                )}
                 <span
                   className='d-none d-xl-inline-block ms-1 text-white'
                   key='t-henry'
                 >
-                  {loading ? <p>Loading...</p> : <>{users.name}</>}
+                  {loading ? (
+                    <div
+                      className='spinner-border text-white mt-lg-2'
+                      role='status'
+                    >
+                      <span className='visually-hidden'>Loading...</span>
+                    </div>
+                  ) : (
+                    <>{users.name}</>
+                  )}
                 </span>{' '}
               </Dropdown.Toggle>
 
@@ -251,22 +271,12 @@ const Top = ({ onButtonClick }) => {
                 </Dropdown.Item>
 
                 <Dropdown.Item className='d-block' href='#'>
-                  <span className='badge bg-success float-end'>11</span>
+                  <span className='badge bg-danger float-end'>11</span>
 
                   <i className='fa-solid fa-gear font-size-16 align-middle me-1'></i>
                   <span key='t-settings'>Settings</span>
                 </Dropdown.Item>
-                <div className='dropdown'>
-                  <button
-                    className='btn btn-light dropdown-toggle'
-                    type='button'
-                    data-bs-toggle='dropdown'
-                    aria-expanded='false'
-                  >
-                    <i className='fa-solid fa-toggle-off font-size-16 align-middle me-1'></i>{' '}
-                    switch account
-                  </button>
-                </div>
+
                 <Dropdown.Divider />
                 <Dropdown.Item className='text-danger' onClick={handleLogout}>
                   <i className='fa-solid fa-right-from-bracket font-size-16 align-middle me-1 text-danger'></i>
@@ -275,14 +285,14 @@ const Top = ({ onButtonClick }) => {
               </Dropdown.Menu>
             </Dropdown>
 
-            <div className='dropdown d-inline-block'>
+            {/* <div className='dropdown d-inline-block'>
               <button
                 type='button'
                 className='btn header-item noti-icon right-bar-toggle waves-effect'
               >
                 <i className='fa-solid fa-gear bx-spin text-white'></i>
               </button>
-            </div>
+            </div> */}
           </div>
         </div>
       </header>
