@@ -5,39 +5,22 @@ import KeyboardArrowDownOutlinedIcon from '@mui/icons-material/KeyboardArrowDown
 import ExpandLessOutlinedIcon from '@mui/icons-material/ExpandLessOutlined'
 import { Link } from 'react-router-dom'
 import PropTypes from 'prop-types'
+import { useDispatch, useSelector } from 'react-redux'
 const Sidebar = ({ menuVisible }) => {
   const [showAccountSubMenu, setShowAccountSubMenu] = useState(false)
-  const [showInvoicesSubMenu, setShowInvoicesSubMenu] = useState(false)
-  const [showPaymentsSubMenu, setShowPaymentsSubMenu] = useState(false)
-  const [showPaypalSubMenu, setShowPaypalSubMenu] = useState(false)
-  const [showsasaSubMenu, setShowsasaSubMenu] = useState(false)
-  const [showimportantSubMenu, setShowimportantSubMenu] = useState(false)
-
+  const [showOrdersSubMenu, setShowOrdersSubMenu] = useState(false)
+  const [showWritersSubMenu, setShowWritersSubMenu] = useState(false)
+  const dispatch = useDispatch()
+  const { userInfo } = useSelector((state) => state.auth)
   const toggleAccountSubMenu = () => {
     setShowAccountSubMenu((prevShowAccountSubMenu) => !prevShowAccountSubMenu)
   }
 
-  const toggleInvoicesSubMenu = () => {
-    setShowInvoicesSubMenu(
-      (prevShowInvoicesSubMenu) => !prevShowInvoicesSubMenu
-    )
+  const toggleOrdersSubMenu = () => {
+    setShowOrdersSubMenu((prevShowOrdersSubMenu) => !prevShowOrdersSubMenu)
   }
-  const togglePaymentsSubMenu = () => {
-    setShowPaymentsSubMenu(
-      (prevshowPaymentsSubMenu) => !prevshowPaymentsSubMenu
-    )
-  }
-
-  const togglepaypalSubMenu = () => {
-    setShowPaypalSubMenu((prevShowPaypalSubMenu) => !prevShowPaypalSubMenu)
-  }
-  const togglesasaSubMenu = () => {
-    setShowsasaSubMenu((prevShowsasaSubMenu) => !prevShowsasaSubMenu)
-  }
-  const toggleimpotantSubMenu = () => {
-    setShowimportantSubMenu(
-      (prevShowimportantSubMenu) => !prevShowimportantSubMenu
-    )
+  const toggleWritersSubMenu = () => {
+    setShowWritersSubMenu((prevShowWritersSubMenu) => !prevShowWritersSubMenu)
   }
 
   return (
@@ -49,13 +32,73 @@ const Sidebar = ({ menuVisible }) => {
               <li className='menu-title' key='t-menu'>
                 Menu
               </li>
-
               <li>
                 <Link to='/home'>
                   <i className='fa-solid fa-house'></i>{' '}
                   <span key='t-dashboards'> Dashboard</span>
                 </Link>
               </li>
+              <li>
+                <a href='#' onClick={toggleOrdersSubMenu}>
+                  <i className='fa fa-user-circle'></i>{' '}
+                  <span key='t-layouts'>Orders</span>{' '}
+                  {showOrdersSubMenu ? (
+                    <ExpandLessOutlinedIcon />
+                  ) : (
+                    <KeyboardArrowDownOutlinedIcon />
+                  )}
+                </a>
+                {showOrdersSubMenu && (
+                  <ul className='sub-menu' aria-expanded={showOrdersSubMenu}>
+                    {userInfo && userInfo.user.role === 'employer' ? (
+                      <li>
+                        <Link to='/profile'>
+                          <i className='fas fa-user-cog'></i> Post an Order
+                        </Link>
+                      </li>
+                    ) : null}
+
+                    <li>
+                      <Link to='/profile'>
+                        <i className='fas fa-user-cog'></i> All
+                      </Link>
+                    </li>
+                  </ul>
+                )}
+              </li>
+              {userInfo && userInfo.user.role === 'employer' ? (
+                <li>
+                  <a href='#' onClick={toggleWritersSubMenu}>
+                    <i className='fa fa-user-circle'></i>{' '}
+                    <span key='t-layouts'>Writers</span>{' '}
+                    {showWritersSubMenu ? (
+                      <ExpandLessOutlinedIcon />
+                    ) : (
+                      <KeyboardArrowDownOutlinedIcon />
+                    )}
+                  </a>
+                  {showWritersSubMenu && (
+                    <ul className='sub-menu' aria-expanded={showWritersSubMenu}>
+                      <li>
+                        <Link to='/profile'>
+                          <i className='fas fa-user-cog'></i> My Writers
+                        </Link>
+                      </li>
+                      <li>
+                        <Link to='/profile'>
+                          <i className='fas fa-user-cog'></i> Public Writers
+                        </Link>
+                      </li>
+                    </ul>
+                  )}
+                </li>
+              ) : (
+                <li>
+                  <Link to='/profile'>
+                    <i className='fas fa-user-cog'></i> My Employers
+                  </Link>
+                </li>
+              )}{' '}
               <li>
                 <Link to='/home'>
                   <i className='fa-solid fa-pen'></i>{' '}
@@ -92,7 +135,6 @@ const Sidebar = ({ menuVisible }) => {
                   <span key='t-dashboards'>Disputed</span>
                 </Link>
               </li>
-
               <li>
                 <a href='#' onClick={toggleAccountSubMenu}>
                   <i className='fa fa-user-circle'></i>{' '}

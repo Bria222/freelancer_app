@@ -37,7 +37,7 @@ const Index = () => {
                   </div>
                 </div>
 
-                <div
+                {/* <div
                   className='alert alert-primary alert-dismissible fade show'
                   role='alert'
                 >
@@ -58,7 +58,7 @@ const Index = () => {
                     data-bs-dismiss='alert'
                     aria-label='Close'
                   ></button>
-                </div>
+                </div> */}
 
                 <div className='col-lg-12 '>
                   <div className='card'>
@@ -81,24 +81,27 @@ const Index = () => {
                                 </h5>
                                 <p className='mb-1'>
                                   <span className='badge badge-sm '>
-                                    {/* {data && data.status === 'verified' ? (
+                                    {userInfo &&
+                                    userInfo.user.role === 'employer' ? (
                                       <p className='btn btn-success waves-effect waves-light btn-sm'>
-                                        Verified
+                                        {userInfo.user.role}
                                         <i className='fa-solid fa-check ms-1'></i>
                                       </p>
-                                    ) : data && data.status !== 'verified' ? (
+                                    ) : userInfo &&
+                                      userInfo.user !== 'writer' ? (
                                       <button
                                         type='button'
-                                        className='btn btn-danger '
+                                        className='btn btn-success '
                                         data-bs-toggle='modal'
                                         data-bs-target='#activate'
                                       >
-                                        Verify
+                                        <strong>Role :</strong>{' '}
+                                        {userInfo.user.role}
                                         <i className='fa-solid fa-xmark'></i>
                                       </button>
                                     ) : (
                                       <p>NOT DEFINED</p>
-                                    )} */}
+                                    )}
                                   </span>
                                 </p>
                               </div>
@@ -111,40 +114,39 @@ const Index = () => {
                               <div className='col-6'>
                                 <div>
                                   <p className='text-muted text-truncate mb-2'>
-                                    <strong>Service Wallet Balance</strong>{' '}
+                                    <strong>Wallet Balance</strong>{' '}
                                   </p>
                                   <h5 className='mb-0'>
-                                    {/* {user_accounts && user_accounts.data ? (
+                                    {userInfo && userInfo.user ? (
                                       <>
-                                        {user_accounts.data?.service_wallet_balance?.toFixed(
-                                          1
-                                        ) || 'Zero balance'}
+                                        {userInfo.user?.id?.toFixed(1) ||
+                                          'Zero balance'}
                                       </>
                                     ) : (
                                       <span>No accounts</span>
-                                    )}{' '} */}
+                                    )}{' '}
                                   </h5>
                                 </div>
                               </div>
                               <div className='col-6'>
                                 <div>
                                   <p className='text-muted text-truncate mb-2'>
-                                    <strong>Account Name</strong>{' '}
+                                    <strong>Active Orders</strong>{' '}
                                   </p>
                                   <h5 className='mb-0'>
-                                    {/* {user_accounts && user_accounts.data ? (
+                                    {userInfo && userInfo.user ? (
                                       <div className='list-group'>
                                         <span
-                                          key={user_accounts.data.id}
+                                          key={userInfo.user.id}
                                           className='list-group'
                                         >
                                           {' '}
-                                          {user_accounts.data.name}
+                                          {userInfo.user.id}
                                         </span>
                                       </div>
                                     ) : (
-                                      <span>No accounts</span>
-                                    )}{' '} */}
+                                      <span>No active orders</span>
+                                    )}{' '}
                                   </h5>
                                 </div>
                               </div>

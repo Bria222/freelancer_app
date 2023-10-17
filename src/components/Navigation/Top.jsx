@@ -13,8 +13,11 @@ import { logout } from '../../features/auth/authSlice'
 import Swal from 'sweetalert2'
 
 const Top = ({ onButtonClick }) => {
+  const [users, setUsers] = useState([])
+  const [loading, setLoading] = useState(true)
   const dispatch = useDispatch()
   const { userInfo } = useSelector((state) => state.auth)
+
   const navigate = useNavigate()
   const handleLogout = () => {
     Swal.fire('logged out!', 'logout sucess!', 'success')
@@ -24,6 +27,28 @@ const Top = ({ onButtonClick }) => {
   const handleProfile = () => {
     navigate('/profile')
   }
+
+  useEffect(() => {
+    async function fetchData() {
+      try {
+        const response = await fetch('http://127.0.0.1:3002/api/v1/user/5')
+        if (response.ok) {
+          const data = await response.json()
+          setUsers(data)
+        } else {
+          // Handle the error case, e.g., set an error state
+          console.error('Error fetching data')
+        }
+      } catch (error) {
+        // Handle network errors, e.g., set an error state
+        console.error('Network error', error)
+      } finally {
+        setLoading(false)
+      }
+    }
+
+    fetchData()
+  }, [])
 
   return (
     <>
@@ -322,14 +347,14 @@ const Top = ({ onButtonClick }) => {
               >
                 <img
                   className='rounded-circle header-profile-user'
-                  src='../images/main/default.png'
+                  src={users.avatar}
                   alt='user Avatar'
                 />
                 <span
                   className='d-none d-xl-inline-block ms-1 text-white'
                   key='t-henry'
                 >
-                  {userInfo ? userInfo.user.name : null}
+                  {loading ? <p>Loading...</p> : <>{users.name}</>}
                 </span>{' '}
               </Dropdown.Toggle>
 

@@ -28,7 +28,10 @@ const authSlice = createSlice({
       state.error = null
     },
     setCredentials: (state, { payload }) => {
-      state.userInfo = payload
+      state.userInfo = {
+        ...payload,
+        avatar: payload.avatar, // Make sure "avatar" matches the key from the API response
+      }
     },
   },
   extraReducers: {
