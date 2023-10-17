@@ -26,12 +26,13 @@ const Top = ({ onButtonClick }) => {
   const handleProfile = () => {
     navigate('/profile')
   }
+  const user_id = localStorage.getItem('user_info')
 
   useEffect(() => {
     async function fetchData() {
       try {
         const response = await fetch(
-          `http://127.0.0.1:3002/api/v1/user/${userInfo.user.id}`
+          `http://127.0.0.1:3002/api/v1/user/${user_id}`
         )
         if (response.ok) {
           const data = await response.json()
