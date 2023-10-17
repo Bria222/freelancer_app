@@ -1,8 +1,7 @@
 /* eslint-disable no-unused-vars */
 import React, { useEffect, useState } from 'react'
 import PropTypes from 'prop-types'
-import DashboardCustomizeIcon from '@mui/icons-material/DashboardCustomize'
-import FullscreenIcon from '@mui/icons-material/Fullscreen'
+
 import SearchOutlinedIcon from '@mui/icons-material/SearchOutlined'
 import { Dropdown } from 'react-bootstrap'
 
@@ -31,7 +30,9 @@ const Top = ({ onButtonClick }) => {
   useEffect(() => {
     async function fetchData() {
       try {
-        const response = await fetch('http://127.0.0.1:3002/api/v1/user/5')
+        const response = await fetch(
+          `http://127.0.0.1:3002/api/v1/user/${userInfo.user.id}`
+        )
         if (response.ok) {
           const data = await response.json()
           setUsers(data)
@@ -153,19 +154,6 @@ const Top = ({ onButtonClick }) => {
                 <a
                   href=''
                   className='dropdown-item notify-item language'
-                  data-lang='en'
-                >
-                  <img
-                    src='../images/flags/us.jpg'
-                    alt='user-image'
-                    className='me-1'
-                  />
-                  <span className='align-middle'>English</span>
-                </a>
-
-                <a
-                  href=''
-                  className='dropdown-item notify-item language'
                   data-lang='sp'
                 >
                   <img
@@ -175,100 +163,7 @@ const Top = ({ onButtonClick }) => {
                   />
                   <span className='align-middle'>Spanish</span>
                 </a>
-
-                <a
-                  href=''
-                  className='dropdown-item notify-item language'
-                  data-lang='gr'
-                >
-                  <img
-                    src='../images/flags/germany.jpg'
-                    alt='user-image'
-                    className='me-1'
-                  />
-                  <span className='align-middle'>German</span>
-                </a>
-
-                <a
-                  href=''
-                  className='dropdown-item notify-item language'
-                  data-lang='it'
-                >
-                  <img
-                    src='../images/flags/italy.jpg'
-                    alt='user-image'
-                    className='me-1'
-                  />
-                  <span className='align-middle'>Italian</span>
-                </a>
-
-                <a
-                  href=''
-                  className='dropdown-item notify-item language'
-                  data-lang='ru'
-                >
-                  <img
-                    src='../images/flags/russia.jpg'
-                    alt='user-image'
-                    className='me-1'
-                  />
-                  <span className='align-middle'>Russian</span>
-                </a>
               </div>
-            </div>
-
-            <Dropdown as='div' className='d-none d-lg-inline-block ms-1'>
-              <Dropdown.Toggle
-                as='button'
-                className='btn header-item noti-icon waves-effect'
-                id='dropdown-customize-icon'
-              >
-                <DashboardCustomizeIcon className='text-white' />
-              </Dropdown.Toggle>
-
-              <Dropdown.Menu className='dropdown-menu-lg dropdown-menu-end'>
-                <div className='px-lg-2'>
-                  <div className='row g-0'>
-                    <div className='col'>
-                      <Dropdown.Item href='#'>
-                        <img
-                          src='../images/brands/instagram.png'
-                          alt='instagram'
-                        />
-                        <span>Instagram</span>
-                      </Dropdown.Item>
-                    </div>
-                    <div className='col'>
-                      <Dropdown.Item href='#'>
-                        <img
-                          src='../images/brands/linkedin.png'
-                          alt='linkedin'
-                        />
-                        <span>Linkedin</span>
-                      </Dropdown.Item>
-                    </div>
-                    <div className='col'>
-                      <Dropdown.Item href='#'>
-                        <img
-                          src='../images/brands/whatsapp.png'
-                          alt='whatsapp'
-                        />
-                        <span>whathsapp</span>
-                      </Dropdown.Item>
-                    </div>
-                  </div>
-                </div>
-              </Dropdown.Menu>
-            </Dropdown>
-
-            <div className='dropdown d-none d-lg-inline-block ms-1'>
-              <button
-                type='button'
-                className='btn header-item noti-icon waves-effect'
-                data-bs-toggle='fullscreen'
-              >
-                <FullscreenIcon className='text-white' />
-              </button>
             </div>
 
             <div className='dropdown d-inline-block'>
@@ -294,12 +189,6 @@ const Top = ({ onButtonClick }) => {
                         Notifications
                       </h6>
                     </div>
-                    <div className='col-auto'>
-                      <a href='#!' className='small' key='t-view-all'>
-                        {' '}
-                        View All
-                      </a>
-                    </div>
                   </div>
                 </div>
                 <div data-simplebar style={{ maxHeight: '230px' }}>
@@ -317,10 +206,6 @@ const Top = ({ onButtonClick }) => {
                         <div className='font-size-12 text-muted'>
                           <p className='mb-1' key='t-grammer'>
                             If several languages coalesce the grammar
-                          </p>
-                          <p className='mb-0'>
-                            <i className='mdi mdi-clock-outline'></i>
-                            <span key='t-min-ago'>3 min ago</span>
                           </p>
                         </div>
                       </div>
@@ -348,7 +233,7 @@ const Top = ({ onButtonClick }) => {
                 <img
                   className='rounded-circle header-profile-user'
                   src={users.avatar}
-                  alt='user Avatar'
+                  alt={users.name}
                 />
                 <span
                   className='d-none d-xl-inline-block ms-1 text-white'
@@ -380,45 +265,6 @@ const Top = ({ onButtonClick }) => {
                     <i className='fa-solid fa-toggle-off font-size-16 align-middle me-1'></i>{' '}
                     switch account
                   </button>
-                  <ul className='dropdown-menu'>
-                    {/* {data &&
-                      data.accounts &&
-                      data.accounts.map((account, i) => (
-                        <li
-                          key={account.id}
-                          onClick={() => handleToggleElert(account, i)}
-                        >
-                          <button
-                            className={`btn btn-group-lg ${
-                              i === activeAccountIndex ? 'active-account' : ''
-                            }`}
-                          >
-                            {i === activeAccountIndex ? (
-                              <>
-                                <i className='fa-solid fa-toggle-on fa-lg text-success me-1'></i>
-                              </>
-                            ) : (
-                              <i className='fa-solid fa-toggle-off fa-lg text-danger me-1'></i>
-                            )}
-                            {account.name}
-                            {i === activeAccountIndex ? (
-                              <>
-                                <div
-                                  className='spinner-grow spinner-grow-sm text-success'
-                                  role='status'
-                                >
-                                  <span className='visually-hidden'>
-                                    Loading...
-                                  </span>
-                                </div>
-                              </>
-                            ) : (
-                              ''
-                            )}
-                          </button>
-                        </li>
-                      ))} */}
-                  </ul>
                 </div>
                 <Dropdown.Divider />
                 <Dropdown.Item className='text-danger' onClick={handleLogout}>
