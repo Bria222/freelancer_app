@@ -1,38 +1,45 @@
 /* eslint-disable no-unused-vars */
-import React from 'react'
+import React, { useState } from 'react'
 import { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { Link, useNavigate } from 'react-router-dom'
-import { fetchUser } from '../../../features/slices/user/userSlice'
+
 import ThreeDots from '../../loading_state/ThreeDots'
 import Footer from '../../Footer/Footer'
 
 const Profile = () => {
+  const [users, setUsers] = useState([])
+  const [loading, setLoading] = useState(true)
   const dispatch = useDispatch()
+  const { userInfo } = useSelector((state) => state.auth)
+
   const navigate = useNavigate()
 
-  const { data, isLoading, error } = useSelector((state) => state.user)
-  const user_accounts = useSelector((state) => state.accountInfo)
-  const account_id =
-    user_accounts && user_accounts.data ? user_accounts.data.id : null
+  const user_id = localStorage.getItem('user_info')
 
   useEffect(() => {
-    dispatch(fetchUser())
-  }, [dispatch])
+    async function fetchData() {
+      try {
+        const response = await fetch(
+          `http://127.0.0.1:3002/api/v1/user/${user_id}`
+        )
+        if (response.ok) {
+          const data = await response.json()
+          setUsers(data)
+        } else {
+          // Handle the error case, e.g., set an error state
+          console.error('Error fetching data')
+        }
+      } catch (error) {
+        // Handle network errors, e.g., set an error state
+        console.error('Network error', error)
+      } finally {
+        setLoading(false)
+      }
+    }
 
-  // will add loading state here
-
-  if (!data) {
-    return (
-      <>
-        <ThreeDots />
-      </>
-    )
-  }
-
-  if (error) {
-    navigate('/lockScreen')
-  }
+    fetchData()
+  }, [])
 
   return (
     <>
@@ -42,7 +49,6 @@ const Profile = () => {
             <div className='row'>
               <div className='col-12'>
                 <div className='page-title-box d-sm-flex align-items-center justify-content-between'>
-                  <h4 className='mb-sm-0 font-size-18'>Account Details</h4>
                   <div className='page-title-right'>
                     <ol className='breadcrumb m-0 d-flex gap-1'>
                       <li className='breadcrumb-item'>Dashboard</li>/
@@ -52,128 +58,142 @@ const Profile = () => {
                 </div>
               </div>
 
-              <div className='col-12'>
-                <div className='card'>
-                  <div className='card-body'>
-                    <h4 className='card-title mb-4'>Account Information</h4>
-                    <Link
-                      type='button'
-                      className='btn btn-success waves-effect btn-label waves-light me-2'
-                      to='/profile-update'
-                    >
-                      <i className='fa fa-pencil label-icon fa-lg'></i> Update
-                    </Link>
-                    <Link
-                      type='button'
-                      className='btn btn-success waves-effect btn-label waves-light'
-                      to='/organization'
-                    >
-                      Oranization <i className='fa-solid fa-plus fa-lg'></i>
-                    </Link>
-                    <p className='text-muted mb-4'>
-                      Hi {data && data.first_name} , Find below your account
-                      details. You can edit/update the details from the account
-                      menu.
-                    </p>
-                    <div className='table-responsive'>
-                      <table className='table table-nowrap mb-0'>
-                        <tbody>
-                          <tr>
-                            <th scope='row'>Business Name :</th>
-                            <td>
-                              {user_accounts.data &&
-                                user_accounts.data.description}
-                            </td>
-                          </tr>
-                          <tr>
-                            <th scope='row'>Registration Number :</th>
-                            <td>N/A</td>
-                          </tr>
-                          <tr>
-                            <th scope='row'>Contact E-mail :</th>
-                            <td>{data && data.email}</td>
-                          </tr>
-                          <tr>
-                            <th scope='row'>Contact Phone :</th>
-                            <td>
-                              {data && (
-                                <span>
-                                  {data.phone_number.country_code}{' '}
-                                  {data.phone_number.number}
-                                </span>
-                              )}
-                            </td>
-                          </tr>
-                          <tr>
-                            <th scope='row' className='text-danger'>
-                              Username :
-                            </th>
-                            <td>{data && data.username}</td>
-                          </tr>
-                          <tr>
-                            <th scope='row' className='text-danger'>
-                              API Key :
-                            </th>
-                            <td>#</td>
-                          </tr>
-                          <tr>
-                            <th scope='row'>Account Number :</th>
-                            <td>#</td>
-                          </tr>
-                          <tr>
-                            <th scope='row'>Callback URL :</th>
-                            <td>#</td>
-                          </tr>
-                          <tr>
-                            <th scope='row'>Registration Date :</th>
-                            <td>{data && data.updated_at}</td>
-                          </tr>
-                          <tr>
-                            <th scope='row'>Customer Thankyou Message :</th>
-                            <td></td>
-                          </tr>
-                          <tr>
-                            <th scope='row'>Account Status :</th>
-                            <td>{data && data.status}</td>
-                          </tr>
-                          <tr>
-                            <th scope='row'>Account Is Verified :</th>
-                            <td>
-                              {data && data.status === 'verified'
-                                ? 'Yes'
-                                : 'No'}
-                            </td>
-                          </tr>
-                          <tr>
-                            <th scope='row'>
-                              Service Wallet Balance Notification :
-                            </th>
-                            <td>
-                              {user_accounts && user_accounts.data ? (
-                                <>
-                                  {user_accounts.data?.service_wallet_balance?.toFixed(
-                                    1
-                                  ) || 'Zero balance'}
-                                </>
-                              ) : (
-                                <span>No accounts</span>
-                              )}
-                            </td>
-                          </tr>
-                          <tr>
-                            <th scope='row'>Account Type :</th>
-                            <td></td>
-                          </tr>
-                          <tr>
-                            <th scope='row'>Account Products :</th>
-                            <td></td>
-                          </tr>
-                          <tr>
-                            <th scope='row'>Enrolled :</th>
-                            <td>SPS</td>
-                          </tr>
-                        </tbody>
-                      </table>
+              <div className='row'>
+                {loading ? (
+                  <div
+                    className='progress'
+                    role='progressbar'
+                    aria-label='Animated striped example'
+                    aria-valuenow='75'
+                    aria-valuemin='0'
+                    aria-valuemax='100'
+                  >
+                    <div
+                      className='progress-bar progress-bar-striped progress-bar-animated bg-success'
+                      style={{ width: '80%' }}
+                    ></div>
+                  </div>
+                ) : (
+                  <>
+                    <div className='card mb-3' style={{ width: '100%' }}>
+                      <div className='row g-0'>
+                        <div className='col-md-2'>
+                          <img
+                            className=''
+                            src={users.avatar}
+                            alt={users.name}
+                            style={{ height: '60%', width: '60%' }}
+                          />
+                        </div>
+                        <div className='col-md-10'>
+                          <div className='card-body'>
+                            <h5 className='card-title'>{users.name}</h5>
+
+                            <table className='table table-stripped table-responsive'>
+                              <thead>
+                                <tr>
+                                  <th scope='col'>Name</th>
+                                  <th scope='col'>Email</th>
+                                  <th scope='col'>Phone number</th>
+                                  <th scope='col'>Wallet Balance</th>
+                                  <th scope='col'>Rights</th>
+                                </tr>
+                              </thead>
+                              <tbody>
+                                <tr>
+                                  <th scope='row'>{users.name}</th>
+                                  <td>{users.email}</td>
+                                  <td>{users.phone_number}</td>
+                                  <td>{users.id}</td>
+                                  <td>{users.role}</td>
+                                </tr>
+                              </tbody>
+                            </table>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </>
+                )}
+              </div>
+              <div className='container'>
+                <h1 className='text-center'>
+                  {' '}
+                  <i className='fa-solid fa-pen-to-square'></i> Edit profile
+                </h1>
+                <div className='container'>
+                  <div className='row g-3'>
+                    <div className='col'>
+                      <input
+                        type='text'
+                        className='form-control'
+                        placeholder={users.name}
+                        aria-label='First name'
+                      />
+                    </div>
+                    <div className='col'>
+                      <input
+                        type='text'
+                        className='form-control'
+                        placeholder={users.name}
+                        aria-label='Last name'
+                      />
+                    </div>
+                  </div>
+                  <div className='row g-3 mt-1'>
+                    <div className='col'>
+                      <input
+                        type='text'
+                        className='form-control'
+                        placeholder={users.email}
+                        aria-label='Email'
+                      />
+                    </div>
+                    <div className='col'>
+                      <input
+                        type='text'
+                        className='form-control'
+                        placeholder={users.phone_number}
+                        aria-label='phone_name'
+                      />
+                    </div>
+                  </div>
+                  <div className='row g-3 mt-1'>
+                    <div className='col'>
+                      <input
+                        type='file'
+                        className='form-control'
+                        aria-label='avatar'
+                      />
+                    </div>
+                    <div className='col'>
+                      <button className='btn btn-success'>Submit</button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div className='container'>
+                <h5 className='fw-bolder mt-lg-4'>
+                  {' '}
+                  <i className='fa-solid fa-pen-to-square'></i> Change Password
+                </h5>
+                <div className='container'>
+                  <div className='row g-3'>
+                    <div className='col'>
+                      <input
+                        type='text'
+                        className='form-control'
+                        placeholder={'previous password'}
+                        aria-label='First name'
+                      />
+                    </div>
+                    <div className='col'>
+                      <input
+                        type='text'
+                        className='form-control'
+                        placeholder={'new password'}
+                        aria-label='Last name'
+                      />
                     </div>
                   </div>
                 </div>
