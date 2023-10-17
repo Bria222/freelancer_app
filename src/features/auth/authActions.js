@@ -1,6 +1,6 @@
 import { createAsyncThunk } from '@reduxjs/toolkit'
 import axios from 'axios'
-
+import TokenDecoder from '../../app/utils/TokenDecoder'
 const backendURL = 'http://127.0.0.1:3002/api/v1'
 
 export const userLogin = createAsyncThunk(
@@ -22,7 +22,10 @@ export const userLogin = createAsyncThunk(
 
       // store user's token in local storage
       localStorage.setItem('userToken', data.token)
+      const token = localStorage.getItem('userToken')
+      const user_info = TokenDecoder(token)
 
+      localStorage.setItem('user_info', user_info.user_id)
       return data
     } catch (error) {
       // return custom error message from API if any
