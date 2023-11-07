@@ -8,30 +8,29 @@ import ThreeDots from '../../loading_state/ThreeDots'
 import Footer from '../../Footer/Footer'
 
 const Profile = () => {
-  const [users, setUsers] = useState([])
-  const [loading, setLoading] = useState(true)
   const dispatch = useDispatch()
   const { userInfo } = useSelector((state) => state.auth)
+  const [users, setUsers] = useState([])
+  const [loading, setLoading] = useState(true)
 
   const navigate = useNavigate()
-
-  const user_id = localStorage.getItem('user_info')
-
   useEffect(() => {
     async function fetchData() {
       try {
-        const response = await fetch(
-          `http://127.0.0.1:3002/api/v1/user/${user_id}`
-        )
+        const response = await fetch(`http://localhost:5000/api/users/me`, {
+          method: 'GET',
+          headers: {
+            Authorization: `Bearer ${userInfo.token}`,
+          },
+        })
+
         if (response.ok) {
           const data = await response.json()
           setUsers(data)
         } else {
-          // Handle the error case, e.g., set an error state
           console.error('Error fetching data')
         }
       } catch (error) {
-        // Handle network errors, e.g., set an error state
         console.error('Network error', error)
       } finally {
         setLoading(false)
@@ -39,8 +38,7 @@ const Profile = () => {
     }
 
     fetchData()
-  }, [])
-
+  }, [userInfo])
   return (
     <>
       <div className='main-content'>
@@ -80,19 +78,19 @@ const Profile = () => {
                         <div className='col-md-2'>
                           <img
                             className=''
-                            src={users.avatar}
+                            src='../default.jpg'
                             alt={users.name}
                             style={{ height: '60%', width: '60%' }}
                           />
                         </div>
                         <div className='col-md-10'>
                           <div className='card-body'>
-                            <h5 className='card-title'>{users.name}</h5>
+                            <h5 className='card-title'>{users.firstname}</h5>
 
                             <table className='table table-stripped table-responsive'>
                               <thead>
                                 <tr>
-                                  <th scope='col'>Name</th>
+                                  <th scope='col'>FirstName</th>
                                   <th scope='col'>Email</th>
                                   <th scope='col'>Phone number</th>
                                   <th scope='col'>Wallet Balance</th>
@@ -101,10 +99,10 @@ const Profile = () => {
                               </thead>
                               <tbody>
                                 <tr>
-                                  <th scope='row'>{users.name}</th>
+                                  <th scope='row'>{users.firstname}</th>
                                   <td>{users.email}</td>
-                                  <td>{users.phone_number}</td>
-                                  <td>{users.id}</td>
+                                  <td>{users.phone}</td>
+                                  <td>{6547.0}</td>
                                   <td>{users.role}</td>
                                 </tr>
                               </tbody>
@@ -153,7 +151,7 @@ const Profile = () => {
                       <input
                         type='text'
                         className='form-control'
-                        placeholder={users.phone_number}
+                        placeholder={users.phone}
                         aria-label='phone_name'
                       />
                     </div>

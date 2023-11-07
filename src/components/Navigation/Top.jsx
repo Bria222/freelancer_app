@@ -15,25 +15,29 @@ const Top = ({ onButtonClick }) => {
   const [users, setUsers] = useState([])
   const [loading, setLoading] = useState(true)
   const dispatch = useDispatch()
-  const { userInfo } = useSelector((state) => state.auth)
-
+  const { userInfo } = useSelector((state) => state.auth) // Add useSelector to access userInfo
   const navigate = useNavigate()
+
   const handleLogout = () => {
-    Swal.fire('logged out!', 'logout sucess!', 'success')
+    Swal.fire('Logged out!', 'Logout success!', 'success')
     dispatch(logout())
     navigate('/')
   }
+
   const handleProfile = () => {
     navigate('/profile')
   }
-  const user_id = localStorage.getItem('user_info')
 
   useEffect(() => {
     async function fetchData() {
       try {
-        const response = await fetch(
-          `http://127.0.0.1:3002/api/v1/user/${user_id}`
-        )
+        const response = await fetch(`http://localhost:5000/api/users/me`, {
+          method: 'GET',
+          headers: {
+            Authorization: `Bearer ${userInfo.token}`, // Use the token from your Redux state
+          },
+        })
+
         if (response.ok) {
           const data = await response.json()
           setUsers(data)
@@ -50,8 +54,7 @@ const Top = ({ onButtonClick }) => {
     }
 
     fetchData()
-  }, [])
-
+  }, [userInfo])
   return (
     <>
       <header
@@ -64,11 +67,11 @@ const Top = ({ onButtonClick }) => {
             <div className='navbar-brand-box'>
               <a href='index.html' className='logo logo-dark'>
                 <span className='logo-sm'>
-                  <img src='../main-logo.jpeg' alt='logo' />
+                  <img src='../default.jpg' alt='logo' />
                 </span>
                 <span className='logo-lg'>
                   <img
-                    src='../main-logo.jpeg'
+                    src='../default.jpg'
                     alt=''
                     style={{ height: '100px' }}
                   />
@@ -76,7 +79,7 @@ const Top = ({ onButtonClick }) => {
               </a>
               <a href='index.html' className='logo logo-light text-white'>
                 <span className='logo-sm'>
-                  <img src='../images/logo-light.svg' alt='' />
+                  <img src='../default.jpg' alt='' />
                 </span>
                 <span className='logo-lg'>
                   <img src='' alt='' style={{ height: '100px' }} />
@@ -100,39 +103,43 @@ const Top = ({ onButtonClick }) => {
           </div>
 
           <div className='d-flex'>
-            <div className='dropdown d-inline-block d-lg-none ms-2'>
-              <button
-                type='button'
-                className='btn header-item noti-icon waves-effect'
-                id='page-header-search-dropdown'
-                data-bs-toggle='dropdown'
-                aria-haspopup='true'
-                aria-expanded='false'
-              >
-                <SearchOutlinedIcon className='text-white ' />
-              </button>
+            <div className='dropdown d-inline-block  ms-2'>
+              <div className='btn header-item noti-icon waves-effect'>
+                <div
+                  className='nav-link custom'
+                  style={{ padding: ' 1.5rem 1rem' }}
+                >
+                  <span
+                    className='text-white fw-bolder me-1'
+                    style={{ fontSize: '15px' }}
+                  >
+                    Balance:
+                  </span>
+                  <Link
+                    to='#'
+                    id='dropdown-flag'
+                    data-toggle='modal'
+                    data-target='#topup-modal'
+                  >
+                    <span
+                      className='badge bg-dark badge-danger '
+                      style={{ fontSize: '14px' }}
+                    >
+                      {' '}
+                      KES
+                      <b className='balance_1'>216.60</b>
+                    </span>
 
-              <div
-                className='dropdown-menu dropdown-menu-lg dropdown-menu-end p-0'
-                aria-labelledby='page-header-search-dropdown'
-              >
-                <form className='p-3'>
-                  <div className='form-group m-0'>
-                    <div className='input-group'>
-                      <input
-                        type='text'
-                        className='form-control'
-                        placeholder='Search ...'
-                        aria-label="Recipient's username"
-                      />
-                      <div className='input-group-append'>
-                        <button className='btn btn-primary' type='submit'>
-                          <SearchOutlinedIcon />
-                        </button>
-                      </div>
-                    </div>
-                  </div>
-                </form>
+                    <i
+                      className='fa fa-spin fa-refresh spinner balance-spin '
+                      style={{ display: 'none' }}
+                      aria-hidden='true'
+                    ></i>
+                  </Link>
+                  <Link to='/payments/refresh-balance' title='Refresh balance'>
+                    <i className='fa fa-refresh' aria-hidden='false'></i>
+                  </Link>
+                </div>
               </div>
             </div>
 
@@ -228,8 +235,8 @@ const Top = ({ onButtonClick }) => {
                   <>
                     <img
                       className='rounded-circle header-profile-user'
-                      src={users.avatar}
-                      alt={users.name}
+                      src='../default.jpg'
+                      alt={users.firstname}
                     />
                   </>
                 )}
@@ -245,7 +252,7 @@ const Top = ({ onButtonClick }) => {
                       <span className='visually-hidden'>Loading...</span>
                     </div>
                   ) : (
-                    <>{users.name}</>
+                    <>{users.firstname}</>
                   )}
                 </span>{' '}
               </Dropdown.Toggle>
