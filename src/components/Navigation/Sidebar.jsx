@@ -12,6 +12,7 @@ const Sidebar = ({ menuVisible }) => {
   const [showWritersSubMenu, setShowWritersSubMenu] = useState(false)
   const dispatch = useDispatch()
   const { userInfo } = useSelector((state) => state.auth)
+
   const toggleAccountSubMenu = () => {
     setShowAccountSubMenu((prevShowAccountSubMenu) => !prevShowAccountSubMenu)
   }
@@ -66,7 +67,8 @@ const Sidebar = ({ menuVisible }) => {
                   </ul>
                 )}
               </li>
-              {userInfo && userInfo.user.role === 'employer' ? (
+              {(userInfo && userInfo.role === 'employer') ||
+              userInfo.role === 'admin' ? (
                 <li>
                   <a href='#' onClick={toggleWritersSubMenu}>
                     <i className='fa fa-user-circle'></i>{' '}

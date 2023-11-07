@@ -28,9 +28,10 @@ const Register = () => {
       setCustomError('Password mismatch')
       return
     }
-    // transform email string to lowercase to avoid case sensitivity issues in login
+
     data.email = data.email.toLowerCase()
     data.role = 'employer'
+
     dispatch(registerUser(data))
   }
 
@@ -42,7 +43,11 @@ const Register = () => {
           {error && { error }}
           {customError && { customError }}
         </div>
-        <form className='login-form' onSubmit={handleSubmit(submitForm)}>
+        <form
+          className='login-form'
+          onSubmit={handleSubmit(submitForm)}
+          encType='multipart/form-data'
+        >
           <div>
             <label htmlFor='name'>Name </label>
             <input
@@ -74,6 +79,16 @@ const Register = () => {
               type='email'
               placeholder='me@example.com'
               {...register('email')}
+              required
+            />
+          </div>
+          <div>
+            <label htmlFor='avatar'>Avatar </label>
+            <input
+              id='avatar'
+              className='form-control'
+              type='file'
+              {...register('avatar')}
               required
             />
           </div>

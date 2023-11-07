@@ -1,10 +1,10 @@
 import { createAsyncThunk } from '@reduxjs/toolkit'
 import axios from 'axios'
 import TokenDecoder from '../../app/utils/TokenDecoder'
-const backendURL = 'http://127.0.0.1:3002/api/v1'
+const backendURL = 'http://localhost:5000/api'
 
 export const userLogin = createAsyncThunk(
-  '/user/login',
+  '/users/login',
   async ({ email, password }, { rejectWithValue }) => {
     try {
       // configure header's Content-Type as JSON
