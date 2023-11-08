@@ -6,7 +6,7 @@ import { useForm } from 'react-hook-form'
 import { useNavigate } from 'react-router-dom'
 import { registerUser } from '../../features/auth/authActions'
 import ThreeDots from '../loading_state/ThreeDots'
-import { number } from 'prop-types'
+import Swal from 'sweetalert2'
 
 const Register = () => {
   const { loading, userInfo, error } = useSelector((state) => state.auth)
@@ -26,6 +26,13 @@ const Register = () => {
 
   const submitForm = (data) => {
     dispatch(registerUser(data))
+    Swal.fire({
+      title: 'Success!',
+      text: `welcome ${data.firstname}`,
+      icon: 'success',
+      showConfirmButton: false,
+      timer: 2000,
+    })
     navigate('/login')
   }
 
