@@ -40,7 +40,7 @@ const Sidebar = ({ menuVisible }) => {
                 </Link>
               </li>
               <li>
-                <a href='#' onClick={toggleOrdersSubMenu}>
+                <Link to='#' onClick={toggleOrdersSubMenu}>
                   <i className='fa fa-user-circle'></i>{' '}
                   <span key='t-layouts'>Orders</span>{' '}
                   {showOrdersSubMenu ? (
@@ -48,7 +48,7 @@ const Sidebar = ({ menuVisible }) => {
                   ) : (
                     <KeyboardArrowDownOutlinedIcon />
                   )}
-                </a>
+                </Link>
                 {showOrdersSubMenu && (
                   <ul className='sub-menu' aria-expanded={showOrdersSubMenu}>
                     {userInfo && userInfo.user.role === 'employer' ? (

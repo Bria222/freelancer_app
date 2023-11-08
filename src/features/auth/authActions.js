@@ -43,9 +43,9 @@ export const userLogin = createAsyncThunk(
 )
 
 export const registerUser = createAsyncThunk(
-  'user/register',
+  '/users',
   async (
-    { name, email, avatar, password, phone_number, role },
+    { firstname, lastname, phone, email, password, role, avatar },
     { rejectWithValue }
   ) => {
     try {
@@ -56,19 +56,15 @@ export const registerUser = createAsyncThunk(
       }
 
       await axios.post(
-        `${backendURL}/users/add`,
-        { name, email, avatar, password, phone_number, role },
+        `${backendURL}/users`,
+        { firstname, lastname, phone, email, password, role, avatar },
         config
       )
     } catch (error) {
       if (error.response && error.response.data.message) {
-        return rejectWithValue(
-          error.response?.data?.error_message || 'Network Error'
-        )
+        return rejectWithValue(error.response?.data?.message || 'Network Error')
       } else {
-        return rejectWithValue(
-          error.response?.data?.error_message || 'Network Error'
-        )
+        return rejectWithValue(error.response?.data?.message || 'Network Error')
       }
     }
   }
