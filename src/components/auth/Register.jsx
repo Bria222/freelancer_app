@@ -184,7 +184,7 @@ const Register = () => {
             />
           </div>
 
-          <button type='submit' className='btn btn--form' disabled={loading}>
+          <button type='submit' className='btn  btn-success' disabled={loading}>
             {loading ? <ThreeDots /> : 'Register'}
           </button>
         </form>
