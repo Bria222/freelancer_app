@@ -31,7 +31,13 @@ const Login = () => {
     })
   }
   if (userInfo) {
-    Swal.fire('welcome!', 'login sucess!', 'success')
+    Swal.fire({
+      title: 'Success!',
+      text: `welcome ${userInfo.firstname}`,
+      icon: 'success',
+      showConfirmButton: false,
+      timer: 3000,
+    })
   }
 
   const submitForm = (data) => {
