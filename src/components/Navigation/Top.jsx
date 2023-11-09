@@ -28,7 +28,7 @@ const Top = ({ onButtonClick }) => {
   }, [dispatch])
 
   if (status === 'loading') {
-    return <h1>Loading...</h1>
+    return <div className='text-center'>Loading...</div>
   }
 
   if (status === 'failed') {

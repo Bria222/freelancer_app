@@ -78,7 +78,7 @@ const Sidebar = ({ menuVisible }) => {
                     ) : null}
 
                     <li>
-                      <Link to='/profile'>
+                      <Link to='/orders'>
                         <i className='fas fa-user-cog'></i> All
                       </Link>
                     </li>

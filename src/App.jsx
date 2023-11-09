@@ -15,6 +15,7 @@ import Profile from './components/pages/profile/Profile'
 import UpdateProfile from './components/pages/profile/UpdateProfile'
 import ResetPass from './components/auth/ResetPass'
 import Home from './components/pages/Home/Home'
+import Order from './components/Orders/Order'
 
 function App() {
   return (
@@ -32,6 +33,7 @@ function App() {
             <Route path='/home' element={<Index />} />
             <Route path='/Profile' element={<Profile />} />
             <Route path='/Profile-update' element={<UpdateProfile />} />
+            <Route path='/orders' element={<Order />} />
           </Route>
         </Route>
         <Route path='*' element={<Navigate to='/' replace />} />
