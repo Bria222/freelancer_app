@@ -4,41 +4,33 @@ import { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { Link, useNavigate } from 'react-router-dom'
 
-import ThreeDots from '../../loading_state/ThreeDots'
 import Footer from '../../Footer/Footer'
+import { fetchUser } from '../../../features/auth/userSlice'
 
 const Profile = () => {
   const dispatch = useDispatch()
-  const { userInfo } = useSelector((state) => state.auth)
-  const [users, setUsers] = useState([])
-  const [loading, setLoading] = useState(true)
 
   const navigate = useNavigate()
+
+  const { user, status, error } = useSelector((state) => state.user)
+
   useEffect(() => {
-    async function fetchData() {
-      try {
-        const response = await fetch(`http://localhost:5000/api/users/me`, {
-          method: 'GET',
-          headers: {
-            Authorization: `Bearer ${userInfo.token}`,
-          },
-        })
+    // Retrieve the token from local storage
+    const token = localStorage.getItem('userToken')
 
-        if (response.ok) {
-          const data = await response.json()
-          setUsers(data)
-        } else {
-          console.error('Error fetching data')
-        }
-      } catch (error) {
-        console.error('Network error', error)
-      } finally {
-        setLoading(false)
-      }
+    if (token) {
+      dispatch(fetchUser(token))
     }
+  }, [dispatch])
 
-    fetchData()
-  }, [userInfo])
+  if (status === 'loading') {
+    return <>Loading...</>
+  }
+
+  if (status === 'failed') {
+    return <div>Error: {error}</div>
+  }
+
   return (
     <>
       <div className='main-content'>
@@ -57,7 +49,7 @@ const Profile = () => {
               </div>
 
               <div className='row'>
-                {loading ? (
+                {status === 'loading' ? (
                   <div
                     className='progress'
                     role='progressbar'
@@ -79,13 +71,13 @@ const Profile = () => {
                           <img
                             className=''
                             src='../default.jpg'
-                            alt={users.name}
+                            alt={user.name}
                             style={{ height: '60%', width: '60%' }}
                           />
                         </div>
                         <div className='col-md-10'>
                           <div className='card-body'>
-                            <h5 className='card-title'>{users.firstname}</h5>
+                            <h5 className='card-title'>{user.firstname}</h5>
 
                             <table className='table table-stripped table-responsive'>
                               <thead>
@@ -99,11 +91,11 @@ const Profile = () => {
                               </thead>
                               <tbody>
                                 <tr>
-                                  <th scope='row'>{users.firstname}</th>
-                                  <td>{users.email}</td>
-                                  <td>{users.phone}</td>
+                                  <th scope='row'>{user.firstname}</th>
+                                  <td>{user.email}</td>
+                                  <td>{user.phone}</td>
                                   <td>{6547.0}</td>
-                                  <td>{users.role}</td>
+                                  <td>{user.role}</td>
                                 </tr>
                               </tbody>
                             </table>
@@ -125,7 +117,7 @@ const Profile = () => {
                       <input
                         type='text'
                         className='form-control'
-                        placeholder={users.name}
+                        placeholder={user.firstname}
                         aria-label='First name'
                       />
                     </div>
@@ -133,7 +125,7 @@ const Profile = () => {
                       <input
                         type='text'
                         className='form-control'
-                        placeholder={users.name}
+                        placeholder={user.lastname}
                         aria-label='Last name'
                       />
                     </div>
@@ -143,7 +135,7 @@ const Profile = () => {
                       <input
                         type='text'
                         className='form-control'
-                        placeholder={users.email}
+                        placeholder={user.email}
                         aria-label='Email'
                       />
                     </div>
@@ -151,7 +143,7 @@ const Profile = () => {
                       <input
                         type='text'
                         className='form-control'
-                        placeholder={users.phone}
+                        placeholder={user.phone}
                         aria-label='phone_name'
                       />
                     </div>

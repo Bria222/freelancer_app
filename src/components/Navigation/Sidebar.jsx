@@ -1,17 +1,35 @@
 /* eslint-disable no-unused-vars */
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 
 import KeyboardArrowDownOutlinedIcon from '@mui/icons-material/KeyboardArrowDownOutlined'
 import ExpandLessOutlinedIcon from '@mui/icons-material/ExpandLessOutlined'
 import { Link } from 'react-router-dom'
 import PropTypes from 'prop-types'
 import { useDispatch, useSelector } from 'react-redux'
+import { fetchUser } from '../../features/auth/userSlice'
 const Sidebar = ({ menuVisible }) => {
   const [showAccountSubMenu, setShowAccountSubMenu] = useState(false)
   const [showOrdersSubMenu, setShowOrdersSubMenu] = useState(false)
   const [showWritersSubMenu, setShowWritersSubMenu] = useState(false)
   const dispatch = useDispatch()
-  const { userInfo } = useSelector((state) => state.auth)
+  const { user, status, error } = useSelector((state) => state.user)
+
+  useEffect(() => {
+    // Retrieve the token from local storage
+    const token = localStorage.getItem('userToken')
+
+    if (token) {
+      dispatch(fetchUser(token))
+    }
+  }, [dispatch])
+
+  if (status === 'loading') {
+    return <h1>Loading...</h1>
+  }
+
+  if (status === 'failed') {
+    return <div>Error: {error}</div>
+  }
 
   const toggleAccountSubMenu = () => {
     setShowAccountSubMenu((prevShowAccountSubMenu) => !prevShowAccountSubMenu)
@@ -51,7 +69,7 @@ const Sidebar = ({ menuVisible }) => {
                 </Link>
                 {showOrdersSubMenu && (
                   <ul className='sub-menu' aria-expanded={showOrdersSubMenu}>
-                    {userInfo && userInfo.user.role === 'employer' ? (
+                    {user && user.role === 'employer' ? (
                       <li>
                         <Link to='/profile'>
                           <i className='fas fa-user-cog'></i> Post an Order
@@ -67,8 +85,7 @@ const Sidebar = ({ menuVisible }) => {
                   </ul>
                 )}
               </li>
-              {(userInfo && userInfo.role === 'employer') ||
-              userInfo.role === 'admin' ? (
+              {(user && user.role === 'employer') || user.role === 'admin' ? (
                 <li>
                   <a href='#' onClick={toggleWritersSubMenu}>
                     <i className='fa fa-user-circle'></i>{' '}

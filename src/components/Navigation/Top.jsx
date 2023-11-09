@@ -2,7 +2,6 @@
 import React, { useEffect, useState } from 'react'
 import PropTypes from 'prop-types'
 
-import SearchOutlinedIcon from '@mui/icons-material/SearchOutlined'
 import { Dropdown } from 'react-bootstrap'
 
 import { useDispatch, useSelector } from 'react-redux'
@@ -10,13 +9,31 @@ import { Link, useNavigate } from 'react-router-dom'
 import { logout } from '../../features/auth/authSlice'
 
 import Swal from 'sweetalert2'
+import { fetchUser } from '../../features/auth/userSlice'
 
 const Top = ({ onButtonClick }) => {
-  const [users, setUsers] = useState([])
   const [loading, setLoading] = useState(true)
   const dispatch = useDispatch()
-  const { userInfo } = useSelector((state) => state.auth) // Add useSelector to access userInfo
+
   const navigate = useNavigate()
+
+  const { user, status, error } = useSelector((state) => state.user)
+
+  useEffect(() => {
+    const token = localStorage.getItem('userToken')
+
+    if (token) {
+      dispatch(fetchUser(token))
+    }
+  }, [dispatch])
+
+  if (status === 'loading') {
+    return <h1>Loading...</h1>
+  }
+
+  if (status === 'failed') {
+    return <div>Error: {error}</div>
+  }
 
   const handleLogout = () => {
     Swal.fire('Logged out!', 'Logout success!', 'success')
@@ -28,33 +45,6 @@ const Top = ({ onButtonClick }) => {
     navigate('/profile')
   }
 
-  useEffect(() => {
-    async function fetchData() {
-      try {
-        const response = await fetch(`http://localhost:5000/api/users/me`, {
-          method: 'GET',
-          headers: {
-            Authorization: `Bearer ${userInfo.token}`, // Use the token from your Redux state
-          },
-        })
-
-        if (response.ok) {
-          const data = await response.json()
-          setUsers(data)
-        } else {
-          // Handle the error case, e.g., set an error state
-          console.error('Error fetching data')
-        }
-      } catch (error) {
-        // Handle network errors, e.g., set an error state
-        console.error('Network error', error)
-      } finally {
-        setLoading(false)
-      }
-    }
-
-    fetchData()
-  }, [userInfo])
   return (
     <>
       <header
@@ -131,7 +121,7 @@ const Top = ({ onButtonClick }) => {
                     </span>
 
                     <i
-                      className='fa fa-spin fa-refresh spinner balance-spin '
+                      className='fa fa-spin fa-refresh spinner balance-spin  '
                       style={{ display: 'none' }}
                       aria-hidden='true'
                     ></i>
@@ -224,50 +214,31 @@ const Top = ({ onButtonClick }) => {
                 className='btn header-item waves-effect'
                 id='page-header-user-dropdown'
               >
-                {loading ? (
-                  <div
-                    className='spinner-grow text-white mt-lg-2'
-                    role='status'
-                  >
-                    <span className='visually-hidden'>Loading...</span>
-                  </div>
-                ) : (
-                  <>
-                    <img
-                      className='rounded-circle header-profile-user'
-                      src='../default.jpg'
-                      alt={users.firstname}
-                    />
-                  </>
-                )}
+                <>
+                  <img
+                    className='rounded-circle header-profile-user'
+                    src='../default.jpg'
+                    alt={user.firstname}
+                  />
+                </>
                 <span
                   className='d-none d-xl-inline-block ms-1 text-white'
                   key='t-henry'
                 >
-                  {loading ? (
-                    <div
-                      className='spinner-border text-white mt-lg-2'
-                      role='status'
-                    >
-                      <span className='visually-hidden'>Loading...</span>
-                    </div>
-                  ) : (
-                    <>{users.firstname}</>
-                  )}
+                  <>{user.firstname}</>
                 </span>{' '}
               </Dropdown.Toggle>
 
               <Dropdown.Menu className='dropdown-menu-end'>
                 <Dropdown.Item onClick={handleProfile}>
-                  <i className='fa-regular fa-user font-size-16 align-middle me-1'></i>
+                  <i className='fa-regular fa-user font-size-16 align-middle me-1 text-info'></i>
                   <span key='t-profile'>Profile</span>
                 </Dropdown.Item>
 
                 <Dropdown.Item className='d-block' href='#'>
-                  <span className='badge bg-danger float-end'>11</span>
+                  <i className='fa-brands fa-google-wallet font-size-16 align-middle me-1 text-info '></i>
 
-                  <i className='fa-solid fa-gear font-size-16 align-middle me-1'></i>
-                  <span key='t-settings'>Settings</span>
+                  <span key='t-settings'>Top up</span>
                 </Dropdown.Item>
 
                 <Dropdown.Divider />
