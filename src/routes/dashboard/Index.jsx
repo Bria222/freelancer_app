@@ -6,6 +6,7 @@ import { Link, useNavigate } from 'react-router-dom'
 import MonthlyPaymentsChart from '../../components/analytics/MonthlyPaymentsChart'
 import TransactionChargesSummary from '../../components/analytics/TransactionChargesSummary'
 import Order from '../../components/Orders/Order'
+import TopUp from '../../components/modals/TopUp'
 
 const Index = () => {
   const dispatch = useDispatch()
@@ -169,8 +170,8 @@ const Index = () => {
               </div>
             </div>
           </div>
-          {/* <TopUp /> */}
-          {/* <ActivateAccount /> */}
+          <TopUp />
+
           <footer className='footer'>
             <div className='container-fluid'>
               <div className='row'>

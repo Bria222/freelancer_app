@@ -7,19 +7,25 @@ import { Link } from 'react-router-dom'
 import PropTypes from 'prop-types'
 import { useDispatch, useSelector } from 'react-redux'
 import { fetchUser } from '../../features/auth/userSlice'
+import { fetchOrders } from '../../features/slices/orders/orderSlice'
 const Sidebar = ({ menuVisible }) => {
   const [showAccountSubMenu, setShowAccountSubMenu] = useState(false)
   const [showOrdersSubMenu, setShowOrdersSubMenu] = useState(false)
   const [showWritersSubMenu, setShowWritersSubMenu] = useState(false)
   const dispatch = useDispatch()
   const { user, status, error } = useSelector((state) => state.user)
-
+  const {
+    orders,
+    status: orderStatus,
+    error: orderErr,
+  } = useSelector((state) => state.orders)
   useEffect(() => {
     // Retrieve the token from local storage
     const token = localStorage.getItem('userToken')
 
     if (token) {
       dispatch(fetchUser(token))
+      dispatch(fetchOrders(token))
     }
   }, [dispatch])
 
@@ -41,6 +47,11 @@ const Sidebar = ({ menuVisible }) => {
   const toggleWritersSubMenu = () => {
     setShowWritersSubMenu((prevShowWritersSubMenu) => !prevShowWritersSubMenu)
   }
+  // order analytics
+  const draftOrders = orders.filter((order) => order.request_mode === 'draft')
+  const bidOrders = orders.filter((order) => order.request_mode === 'bid')
+  const takeOrders = orders.filter((order) => order.request_mode === 'take')
+  const publicOrders = orders.filter((order) => order.request_mode === 'public')
 
   return (
     <>
@@ -79,7 +90,79 @@ const Sidebar = ({ menuVisible }) => {
 
                     <li>
                       <Link to='/orders'>
-                        <i className='fas fa-user-cog'></i> All
+                        <p className='position-relative'>
+                          All Orders
+                          <span className='position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger'>
+                            {orders.length}
+                            <span className='visually-hidden'>
+                              unread messages
+                            </span>
+                          </span>
+                        </p>
+                      </Link>
+                    </li>
+                    <li>
+                      <Link to='/orders'>
+                        <p className='position-relative'>
+                          Draft Orders
+                          <span className='position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger'>
+                            {draftOrders.length}
+                            <span className='visually-hidden'>
+                              draft orders
+                            </span>
+                          </span>
+                        </p>
+                      </Link>
+                      <Link to='/orders'>
+                        <p className='position-relative'>
+                          Request/Bid
+                          <span className='position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger'>
+                            {bidOrders.length}
+                            <span className='visually-hidden'>Request/Bid</span>
+                          </span>
+                        </p>
+                      </Link>
+                      <Link to='/orders'>
+                        <p className='position-relative'>
+                          Take orders
+                          <span className='position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger'>
+                            {takeOrders.length}
+                            <span className='visually-hidden'>Request/Bid</span>
+                          </span>
+                        </p>
+                      </Link>
+                      <Link to='/orders'>
+                        <p className='position-relative'>
+                          Public orders
+                          <span className='position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger'>
+                            {publicOrders.length}
+                            <span className='visually-hidden'>
+                              public orders
+                            </span>
+                          </span>
+                        </p>
+                      </Link>
+                      <Link to='/orders'>
+                        <p className='position-relative'>
+                          Escrowed orders
+                          <span className='position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger'>
+                            {0}
+                            <span className='visually-hidden'>
+                              Escrowed orders
+                            </span>
+                          </span>
+                        </p>
+                      </Link>
+                      <Link to='/orders'>
+                        <p className='position-relative'>
+                          In Progress
+                          <span className='position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger'>
+                            {0}
+                            <span className='visually-hidden'>
+                              In Progress orders
+                            </span>
+                          </span>
+                        </p>
                       </Link>
                     </li>
                   </ul>

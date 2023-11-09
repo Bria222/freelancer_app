@@ -235,7 +235,12 @@ const Top = ({ onButtonClick }) => {
                   <span key='t-profile'>Profile</span>
                 </Dropdown.Item>
 
-                <Dropdown.Item className='d-block' href='#'>
+                <Dropdown.Item
+                  className='d-block'
+                  href='#'
+                  data-bs-toggle='modal'
+                  data-bs-target='#topUp'
+                >
                   <i className='fa-brands fa-google-wallet font-size-16 align-middle me-1 text-info '></i>
 
                   <span key='t-settings'>Top up</span>
